@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const colors = require("colors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+import path from 'path';
 
 //env config
 dotenv.config();
@@ -14,6 +15,8 @@ const blogRoutes = require("./Routes/blogRoutes");
 
 //mongodb connection
 connectDB();
+
+const __dirname = path.resolve();
 
 //rest objecct
 const app = express();
@@ -26,6 +29,8 @@ app.use(morgan("dev"));
 //routes
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/blog", blogRoutes);
+
+app.use(express.static(path.join(__dirname, '/client/build)));
 
 // Port
 const PORT = process.env.PORT || 9000;
